@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/gcxy_nmh?serverTimezone=UTC
+    username: root
+    password: 123456
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+main:
+  banner-mode:off #关闭SpringBoot启动图标(banner)
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印SQL到控制台
+  global-config:
+    banner: off #关闭mybatisplus启动图标
+  mapper-locations: classpath:/mapper/*Mapper.xml
+swagger:
+  enabled: true
+  pathMapping: /
