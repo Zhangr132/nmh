@@ -1,5 +1,6 @@
 package com.gcxy.utils;
 
+
 import org.apache.commons.codec.digest.DigestUtils;
 
 public class Md5Util {
@@ -15,9 +16,13 @@ public class Md5Util {
      * @throws Exception
      */
     public static String md5(String strPwd) throws Exception{
-        // 获取加密后的字符串
-        String encodeStr = DigestUtils.md5Hex(strPwd+md5Key);
-        return encodeStr;
+        try {
+            // 获取加密后的字符串
+            String encodeStr = DigestUtils.md5Hex(strPwd+md5Key);
+            return encodeStr;
+        }catch (Exception e){
+            return null;
+        }
     }
 
     /**

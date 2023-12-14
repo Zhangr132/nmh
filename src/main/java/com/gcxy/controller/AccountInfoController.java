@@ -1,21 +1,21 @@
 package com.gcxy.controller;
 
 
+import com.gcxy.dao.LoginDao;
+import com.gcxy.dao.RegisterDao;
 import com.gcxy.entity.AccountInfo;
 import com.gcxy.service.AccountInfoService;
-import com.gcxy.utils.JwtTokenUtil;
-import com.gcxy.utils.Md5Util;
 import com.gcxy.config.R;
+import com.gcxy.utils.Md5Util;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
+import javax.validation.Valid;
 
 /**
  * <p>
@@ -29,10 +29,11 @@ import java.util.Date;
 @RequestMapping("/accountInfo")
 @Api("用户管理模块")
 public class AccountInfoController {
+    private Logger logger= LoggerFactory.getLogger(getClass());
     @Autowired
     private AccountInfoService accountInfoService;
 
-    @ApiOperation("获取用户数据接口")
+    @ApiOperation("获取用户数据")
     @GetMapping ("/getAll")
     public R getAll(){
 
@@ -43,7 +44,16 @@ public class AccountInfoController {
 
     @ApiOperation("用户登录")
     @PostMapping(value = "/login")
-    public R login(@ApiParam  @RequestBody AccountInfo requestBody,@ApiParam HttpServletRequest req,@ApiParam HttpServletResponse response){
+    public R login(@Valid @RequestBody LoginDao loginDao) throws Exception {
+        logger.info("正在进行登录");
+        String result=accountInfoService.login(loginDao);
+        if(result!=null){
+            return R.Success("登录成功！",result);
+        }
+        return R.Failed("登录失败！");
+
+    }
+   /* public R login(@ApiParam  @RequestBody AccountInfo requestBody,@ApiParam HttpServletRequest req,@ApiParam HttpServletResponse response){
         AccountInfo accountInfo = accountInfoService.getAccount(requestBody.getAccount());
         if (accountInfo != null){
             try {
@@ -69,11 +79,19 @@ public class AccountInfoController {
             }
         }
         return R.Failed("登录失败！");
-    }
+    }*/
 
-    @ApiOperation("注册接口")
+    @ApiOperation("用户注册")
     @PostMapping("/register")
-    public R register(@ApiParam String account,@ApiParam String accName,@ApiParam  String password,@ApiParam String accPhone){
+    public R register(@Valid @RequestBody RegisterDao registerDao) throws Exception {
+        logger.info("进入注册！");
+        boolean result=accountInfoService.register(registerDao);
+        if(result){
+            return R.Success("注册成功");
+        }
+        return R.Failed("注册失败,用户名已存在");
+    }
+    /*public R register(@ApiParam String account,@ApiParam String accName,@ApiParam  String password,@ApiParam String accPhone){
         AccountInfo accountInfo = accountInfoService.getAccount(accName);
         System.out.println(accountInfo);
         if (accountInfo == null){
@@ -97,7 +115,7 @@ public class AccountInfoController {
             }
         }
         return R.Failed("注册失败！");
-    }
+    }*/
 
     @ApiOperation("修改人员信息接口")
     @PutMapping("/updateUser")

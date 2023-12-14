@@ -5,8 +5,8 @@ import java.io.Serializable;
 import java.util.Date;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Builder;
+import lombok.Data;
 
 /**
  * <p>
@@ -16,8 +16,8 @@ import lombok.Setter;
  * @author zhangr132
  * @since 2023-12-12
  */
-@Getter
-@Setter
+@Data
+@Builder
 @TableName("account_info")
 @ApiModel(value = "AccountInfo对象", description = "用户表")
 public class AccountInfo implements Serializable {

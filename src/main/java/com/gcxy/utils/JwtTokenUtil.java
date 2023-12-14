@@ -2,11 +2,13 @@ package com.gcxy.utils;
 
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,9 +17,34 @@ public class JwtTokenUtil {
 
     // 创建一个秘钥
     public static final String TOKEN_KEY = "javasdfasdfasdfxixiahahahehe";
+//    private static final byte[] SECRET= "zdsfot shuyixin should beajfafjafjla ".getBytes();
 
     // 设置token的有效期  15min
     public final static long KEEP_TIME = 15 * 60 * 60 * 1000;
+
+    /**
+     * 生成token
+     * @param paramMap 用户信息
+     * @return
+     */
+    public static String createToken(Map<String, String> paramMap) {
+        Map<String,Object> headMap=new HashMap<>();
+        Calendar expireTime=Calendar.getInstance();
+        expireTime.add(Calendar.DATE,7);//过期时间默认7天
+
+        JWTCreator.Builder builder=JWT.create();
+        //Header(使用默认数据，故map没有值，可以省略）
+        builder.withHeader(headMap);
+        //Payload
+        paramMap.forEach((key,value)->{
+            builder.withClaim(key,value);
+        });
+        //过期时间
+        String token=builder.withExpiresAt(expireTime.getTime())
+                //Signature
+                .sign(Algorithm.HMAC256(TOKEN_KEY));
+        return token;
+    }
 
     /**
      * 生成token
