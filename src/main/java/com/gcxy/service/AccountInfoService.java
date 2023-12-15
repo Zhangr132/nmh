@@ -2,6 +2,7 @@ package com.gcxy.service;
 
 import com.gcxy.dao.LoginDao;
 import com.gcxy.dao.RegisterDao;
+import com.gcxy.dao.UpdateDao;
 import com.gcxy.entity.AccountInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -27,4 +28,6 @@ public interface AccountInfoService extends IService<AccountInfo> {
     boolean register(RegisterDao registerDao) throws Exception;
 
     String login(LoginDao loginDao) throws Exception;
+
+    boolean update(UpdateDao updateDao) throws Exception;
 }

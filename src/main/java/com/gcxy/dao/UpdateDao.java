@@ -8,7 +8,13 @@ import javax.validation.constraints.Pattern;
 
 
 @Data
-public class UpdateDap {
+public class UpdateDao {
+
+    @NotEmpty(message = "登录账号不能为空")
+    @Length(min = 5, max = 11, message = "账号长度为5-11")
+    @Pattern(regexp = "^[A-Za-z0-9]+$")
+    private String account;
+
     @NotEmpty(message = "用户名不能为空")
     @Length(min = 5, max = 11, message = "用户名长度为5-11")
     @Pattern(regexp = "^[A-Za-z0-9]+$")

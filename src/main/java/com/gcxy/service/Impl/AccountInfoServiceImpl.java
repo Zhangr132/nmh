@@ -2,6 +2,7 @@ package com.gcxy.service.Impl;
 
 import com.gcxy.dao.LoginDao;
 import com.gcxy.dao.RegisterDao;
+import com.gcxy.dao.UpdateDao;
 import com.gcxy.entity.AccountInfo;
 import com.gcxy.mapper.AccountInfoMapper;
 import com.gcxy.service.AccountInfoService;
@@ -42,7 +43,7 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper, Accou
         boolean result=Md5Util.passwordVerify(loginDao.getPassword(),accountInfoMapper.getByAccount(loginDao.getAccount()).getPassword());
         if(result){
             Map<String,String> map=new HashMap<>();
-            map.put("accName",accountInfoMapper.getByAccount(loginDao.getAccount()).getAccName());
+//            map.put("accName",accountInfoMapper.getByAccount(loginDao.getAccount()).getAccName());
             map.put("account",loginDao.getAccount());
             String token= JwtTokenUtil.createToken(map);
             logger.info("用户登录成功,生成的Token为："+token);
@@ -76,6 +77,29 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper, Accou
         return false;
     }
 
+    /**
+     * 修改用户信息
+     * @param updateDao
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public boolean update(UpdateDao updateDao) throws Exception {
+        AccountInfo accountInfo=accountInfoMapper.getByAccount(updateDao.getAccount());
+        if(accountInfo!=null){
+            String ps=Md5Util.md5(updateDao.getPassword());
+            AccountInfo accountInfo1=AccountInfo.builder()
+                    .account(updateDao.getAccount())
+                    .accName(updateDao.getAccName())
+                    .password(ps)
+                    .accPhone(updateDao.getAccPhone())
+                    .isEnable(updateDao.getIsEnable())
+                    .build();
+            int count=accountInfoMapper.updateAccount(accountInfo1);
+            return count>0;
+        }
+        return false;
+    }
 
 
 

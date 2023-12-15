@@ -3,13 +3,11 @@ package com.gcxy.controller;
 
 import com.gcxy.dao.LoginDao;
 import com.gcxy.dao.RegisterDao;
-import com.gcxy.entity.AccountInfo;
+import com.gcxy.dao.UpdateDao;
 import com.gcxy.service.AccountInfoService;
 import com.gcxy.config.R;
-import com.gcxy.utils.Md5Util;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,9 +115,17 @@ public class AccountInfoController {
         return R.Failed("注册失败！");
     }*/
 
-    @ApiOperation("修改人员信息接口")
+    @ApiOperation("修改用户信息")
     @PutMapping("/updateUser")
-    public R find(@ApiParam String account,@ApiParam String accName,@ApiParam String password,@ApiParam String accPhone,@ApiParam Boolean isEnable){
+    public R update(@Valid @RequestBody UpdateDao updateDao) throws Exception {
+        logger.info("正在进行修改");
+        boolean row =accountInfoService.update(updateDao);
+        if(row){
+            return R.Success("修改成功");
+        }
+        return R.Failed("修改失败，用户不存在");
+    }
+   /* public R update(@ApiParam String account,@ApiParam String accName,@ApiParam String password,@ApiParam String accPhone,@ApiParam Boolean isEnable){
         AccountInfo accountInfo=accountInfoService.getAccount(account);
         System.out.println(accountInfo);
         if (accountInfo != null) {
@@ -144,6 +150,6 @@ public class AccountInfoController {
         }
 
         return R.Failed("用户不存在！");
-    }
+    }*/
 
 }
