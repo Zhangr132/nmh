@@ -29,5 +29,5 @@ public class UpdateDao {
     @Length(min = 11, max = 11, message = "手机号长度为11")
     private String accPhone;
 
-    private Boolean isEnable;
+    private Boolean status;
 }

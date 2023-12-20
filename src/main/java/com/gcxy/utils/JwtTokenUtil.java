@@ -113,4 +113,21 @@ public class JwtTokenUtil {
             return null;
         }
     }
+
+    /**
+     * 获取账号名和用户名
+     * @param token
+     * @return
+     */
+    public static Map<String,String> getUserInfo(String token){
+        Map<String, String> userInfo = new HashMap<>();
+        try {
+            DecodedJWT jwt = JWT.decode(token);
+            userInfo.put("account", jwt.getClaim("account").asString());
+            userInfo.put("accName", jwt.getClaim("accName").asString());
+            return userInfo;
+        } catch (JWTDecodeException e) {
+            return null;
+        }
+    }
 }
