@@ -18,9 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.servlet.http.Cookie;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,58 +65,28 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper, Accou
      */
     @Override
     public boolean register(RegisterDao registerDao) throws Exception {
-        AccountInfo accountInfo=accountInfoMapper.getByAccount(registerDao.getAccount());
-        if (accountInfo==null){
-            String ps= Md5Util.md5(registerDao.getPassword());
-            AccountInfo accountInfo1=AccountInfo.builder()
-                    .account(registerDao.getAccount())
-                    .accName(registerDao.getAccName())
-                    .password(ps)
-                    .accPhone(registerDao.getAccPhone())
-                    .status(true)
-                    .build();
-            int count=accountInfoMapper.insertAccount(accountInfo1);
-            return count>0;
-
+        String Yz="YZ";//前缀
+        int i = 1; // 初始序号
+        while (i <= 9999) {
+            String newAccount = Yz + String.format("%04d", i); // 生成新账号
+            AccountInfo existingAccount = accountInfoMapper.getByAccount(newAccount);
+            if (existingAccount == null) {
+                    String ps= Md5Util.md5(registerDao.getAccPhone().substring(registerDao.getAccPhone().length() - 6));
+                    AccountInfo accountInfo=AccountInfo.builder()
+                            .account(newAccount)
+                            .accName(registerDao.getAccName())
+                            .password(ps)
+                            .accPhone(registerDao.getAccPhone())
+                            .status(true)
+                            .build();
+                    int count=accountInfoMapper.insertAccount(accountInfo);
+                    return count>0;
+            }
+            i++; // 序号加1
         }
+
         return false;
     }
-    /**
-     * 用户注销
-     * @param token 用户的登录令牌
-     * @return 是否成功注销
-     */
-/*    @Override
-    public boolean logout(String token) {
-        // 解析token获取用户信息
-        Map<String, String> userInfo = JwtTokenUtil.getUserInfo(token);
-
-        // 判断token是否有效
-        if (userInfo != null) {
-            // 获取用户ID
-            String account = userInfo.get("account");
-            String password=userInfo.get("password");
-            // 清除用户登录状态或删除相关登录信息
-            // 删除客户端存储的 JWT 令牌
-            Cookie[] cookies = request.getCookies();
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                    if (cookie.getName().equals("jwtToken")) {
-                        cookie.setValue("");
-                        cookie.setMaxAge(0);
-                        response.addCookie(cookie);
-                        break;
-                    }
-                }
-            }
-
-            // 返回注销结果
-            return true;
-        }
-
-        // 若token无效，则认为注销失败
-        return false;
-    }*/
 
     /**
      * 修改用户信息
@@ -183,55 +150,10 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper, Accou
         data.put("data",records);
         return R.Success(data);
     }
-    /*public R pageAccount(@RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize") int pageSize,
-                         @RequestParam(value = "accName", required = false) String accName,
-                         @RequestParam(value = "accPhone", required = false) String accPhone,
-                         @RequestParam(value = "status", required = false) Boolean status){
-        MyPage<AccountInfo> myPage = new MyPage<>();
-        myPage.setPageNumber(pageNumber);
-        myPage.setPageSize(pageSize);
-
-        AccountInfo accountInfo = new AccountInfo();
-        accountInfo.setAccName(accName);
-        accountInfo.setAccPhone(accPhone);
-        accountInfo.setStatus(status);
-        myPage.setData(accountInfo);
-
-        QueryWrapper<AccountInfo> queryWrapper = new QueryWrapper<>();
-        Page<AccountInfo> page = new Page<>(myPage.getPageNumber(), myPage.getPageSize());
-        if (myPage.getData() != null) {
-            queryWrapper.like(StringUtils.isNotBlank(myPage.getData().getAccName()), "acc_name", myPage.getData().getAccName())
-                    .like(StringUtils.isNotBlank(myPage.getData().getAccPhone()), "acc_phone", myPage.getData().getAccPhone())
-                    .eq(myPage.getData().getStatus() != null, "is_enable", myPage.getData().getStatus());
-        }
-        accountInfoMapper.selectPage(page, queryWrapper);
-        List<AccountInfo> records = page.getRecords();
-        Map<String, Object> data = new HashMap<>();
-        data.put("data", records);
-        return R.Success(data);
-    }*/
-
-
 
     @Override
     public List<AccountInfo> getAll() {
         return accountInfoMapper.selectAll();
     }
-
-    /*@Override
-    public AccountInfo getAccount(String account) {
-        return accountInfoMapper.getByAccount(account);
-    }
-    //新增
-    @Override
-    public int addAccount(AccountInfo accountInfo) {
-        return accountInfoMapper.insertAccount(accountInfo);
-    }
-
-    //修改
-    @Override
-    public int updateAccount(AccountInfo accountInfo){
-        return accountInfoMapper.updateAccount(accountInfo);
-    }*/
 
 }

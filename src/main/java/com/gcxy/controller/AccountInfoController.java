@@ -9,7 +9,6 @@ import com.gcxy.entity.AccountInfo;
 import com.gcxy.entity.MyPage;
 import com.gcxy.service.AccountInfoService;
 import com.gcxy.config.R;
-import com.gcxy.utils.JwtTokenUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -28,7 +27,7 @@ import javax.validation.Valid;
  * @since 2023-12-12
  */
 @RestController
-@RequestMapping("/accountInfo")
+@RequestMapping("/acc")
 @Api("用户管理模块")
 public class AccountInfoController {
     private Logger logger= LoggerFactory.getLogger(getClass());
@@ -99,7 +98,7 @@ public class AccountInfoController {
         if(result){
             return R.Success("注册成功");
         }
-        return R.Failed("注册失败,用户名已存在");
+        return R.Failed("注册失败");
     }
     /*public R register(@ApiParam String account,@ApiParam String accName,@ApiParam  String password,@ApiParam String accPhone){
         AccountInfo accountInfo = accountInfoService.getAccount(accName);

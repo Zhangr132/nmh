@@ -16,7 +16,7 @@ public class JWTInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token=request.getHeader("token");
-        String msg = null;
+        String msg = "";
         try{
             JwtTokenUtil.verify(token);
         }catch (SignatureVerificationException e){

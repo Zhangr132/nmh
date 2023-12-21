@@ -37,4 +37,6 @@ public interface AccountInfoService extends IService<AccountInfo> {
     R pageAccount(MyPage<AccountInfo> myPage);
 
     boolean delete(DeleteDao deleteDao);
+
+
 }

@@ -31,6 +31,9 @@ public class CodeGenerator {
 
         List<String> tables=new ArrayList<>();
         tables.add("account_info");
+        tables.add("data_dic");
+        tables.add("data_dic_val");
+        tables.add("pasture");
 
         FastAutoGenerator.create(url, username, password)
                 //全局配置
