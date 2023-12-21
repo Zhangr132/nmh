@@ -3,10 +3,10 @@ package com.gcxy.service.Impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gcxy.config.R;
-import com.gcxy.dao.DeleteDao;
-import com.gcxy.dao.LoginDao;
-import com.gcxy.dao.RegisterDao;
-import com.gcxy.dao.UpdateDao;
+import com.gcxy.dao.AccountInfo.DeleteDao;
+import com.gcxy.dao.AccountInfo.LoginDao;
+import com.gcxy.dao.AccountInfo.RegisterDao;
+import com.gcxy.dao.AccountInfo.UpdateDao;
 import com.gcxy.entity.AccountInfo;
 import com.gcxy.entity.MyPage;
 import com.gcxy.mapper.AccountInfoMapper;
@@ -95,7 +95,7 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper, Accou
      * @throws Exception
      */
     @Override
-    public boolean update(UpdateDao updateDao) throws Exception {
+    public boolean updateAccount(UpdateDao updateDao) throws Exception {
         AccountInfo accountInfo=accountInfoMapper.getByAccount(updateDao.getAccount());
         if(accountInfo!=null){
             String ps=Md5Util.md5(updateDao.getPassword());
@@ -117,7 +117,7 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper, Accou
      * @param deleteDao
      * @return
      */
-    public boolean delete(DeleteDao deleteDao){
+    public boolean deleteAccount(DeleteDao deleteDao){
         AccountInfo accountInfo=accountInfoMapper.getByAccount(deleteDao.getAccount());
         if(accountInfo!=null){
             AccountInfo accountInfo1= AccountInfo.builder()
@@ -136,13 +136,13 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper, Accou
      * @return
      */
     @Override
-    public R pageAccount(MyPage<AccountInfo> myPage){
+    public R selectAccount(MyPage<AccountInfo> myPage){
         QueryWrapper<AccountInfo> queryWrapper=new QueryWrapper<>();
         Page<AccountInfo> page=new Page<>(myPage.getPageNumber(),myPage.getPageSize());
         if(myPage.getData()!=null){
             queryWrapper.like(myPage.getData().getAccName()!=null,"acc_name",myPage.getData().getAccName())
                     .like(myPage.getData().getAccPhone()!=null,"acc_phone",myPage.getData().getAccPhone())
-                    .eq(myPage.getData().getStatus()!=null,"is_enable",myPage.getData().getStatus());
+                    .eq(myPage.getData().getStatus()!=null,"status",myPage.getData().getStatus());
         }
         accountInfoMapper.selectPage(page,queryWrapper);
         List<AccountInfo> records=page.getRecords();

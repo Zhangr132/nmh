@@ -5,10 +5,11 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * <p>
@@ -18,8 +19,9 @@ import lombok.Setter;
  * @author zhangr132
  * @since 2023-12-21
  */
-@Getter
-@Setter
+@Data
+@TableName("pasture LEFT JOIN data_dic_val on pasture.val_id = data_dic_val.id")
+
 @ApiModel(value = "Pasture对象", description = "牧场管理表")
 public class Pasture implements Serializable {
 
@@ -57,13 +59,16 @@ public class Pasture implements Serializable {
     private String addrDetail;
 
     @ApiModelProperty("字典值编号（关联具体牲畜品种）")
-    private Integer valId;
+    private Integer valId;  //可有可无
+
+    @ApiModelProperty("字典值取值（牲畜品种）")
+    private String valValue;
 
     @ApiModelProperty("存栏量")
     private Integer amoLivestock;
 
     @ApiModelProperty("牧场状态（1：启用，0：停用）")
-    private Boolean status;
+    private Integer status;
 
     @ApiModelProperty("创建时间")
     private Date createTime;

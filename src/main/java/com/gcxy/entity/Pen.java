@@ -2,7 +2,6 @@ package com.gcxy.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
 import io.swagger.annotations.ApiModel;
@@ -13,30 +12,32 @@ import lombok.Setter;
 
 /**
  * <p>
- * 数据字典值表
+ * 圈舍管理表
  * </p>
  *
  * @author zhangr132
  * @since 2023-12-21
  */
 @Data
-@TableName("data_dic_val")
-@ApiModel(value = "DataDicVal对象", description = "数据字典值表")
-public class DataDicVal implements Serializable {
+@ApiModel(value = "Pen对象", description = "圈舍管理表")
+public class Pen implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("字典值表")
-    @TableId(value = "Id", type = IdType.AUTO)
-    private Integer id;
+    @ApiModelProperty("圈舍编号")
+    @TableId(value = "pen_Id", type = IdType.AUTO)
+    private Integer penId;
 
-    @ApiModelProperty("字典编号（关联字典）")
-    private Integer dicId;
+    @ApiModelProperty("牧场编号(关联牧场)")
+    private Integer ranchId;
 
-    @ApiModelProperty("字典值取值")
-    private String valValue;
+    @ApiModelProperty("圈舍名称(同牧场下唯一)")
+    private String penName;
 
-    @ApiModelProperty("字典值状态（1：启用，0：停用）")
+    @ApiModelProperty("存栏量")
+    private Integer amountLivestock;
+
+    @ApiModelProperty("圈舍状态(0:停用，1:启用)")
     private Integer status;
 
     @ApiModelProperty("创建时间")

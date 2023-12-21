@@ -1,10 +1,10 @@
 package com.gcxy.service;
 
 import com.gcxy.config.R;
-import com.gcxy.dao.DeleteDao;
-import com.gcxy.dao.LoginDao;
-import com.gcxy.dao.RegisterDao;
-import com.gcxy.dao.UpdateDao;
+import com.gcxy.dao.AccountInfo.DeleteDao;
+import com.gcxy.dao.AccountInfo.LoginDao;
+import com.gcxy.dao.AccountInfo.RegisterDao;
+import com.gcxy.dao.AccountInfo.UpdateDao;
 import com.gcxy.entity.AccountInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.gcxy.entity.MyPage;
@@ -22,21 +22,16 @@ import java.util.List;
 public interface AccountInfoService extends IService<AccountInfo> {
     List<AccountInfo> getAll();
 
-    /*AccountInfo getAccount(String account);
-    //新增
-    int addAccount(AccountInfo accountInfo);
-    //修改
-    int updateAccount(AccountInfo accountInfo);*/
 
     boolean register(RegisterDao registerDao) throws Exception;
 
     String login(LoginDao loginDao) throws Exception;
 
-    boolean update(UpdateDao updateDao) throws Exception;
+    boolean updateAccount(UpdateDao updateDao) throws Exception;
 
-    R pageAccount(MyPage<AccountInfo> myPage);
+    R selectAccount(MyPage<AccountInfo> myPage);
 
-    boolean delete(DeleteDao deleteDao);
+    boolean deleteAccount(DeleteDao deleteDao);
 
 
 }

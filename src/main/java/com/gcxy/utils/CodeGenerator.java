@@ -34,6 +34,7 @@ public class CodeGenerator {
         tables.add("data_dic");
         tables.add("data_dic_val");
         tables.add("pasture");
+        tables.add("pen");
 
         FastAutoGenerator.create(url, username, password)
                 //全局配置

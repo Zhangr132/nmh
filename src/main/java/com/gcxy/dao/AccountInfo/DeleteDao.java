@@ -1,4 +1,4 @@
-package com.gcxy.dao;
+package com.gcxy.dao.AccountInfo;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
