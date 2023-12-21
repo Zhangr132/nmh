@@ -48,47 +48,13 @@ public class AccountInfoController {
     public R login(@Valid @RequestBody LoginDao loginDao, HttpServletResponse response) throws Exception {
         logger.info("正在进行登录");
         String result=accountInfoService.login(loginDao);
-        if(result!=null){/*
-            // 生成token
-            String token = JwtTokenUtil.buildJwt(loginDao.getAccount(), loginDao.getPassword());
-            System.out.println(token);
-            // 将token写入响应头中
-            response.addHeader("Authorization", "Bearer " + token);
-            response.setContentType("application/json;charset=utf-8");
-            System.out.println("登陆成功！");*/
+        if(result!=null){
             return R.Success("登录成功！",result);
         }
         System.out.println("登陆失败！");
         return R.Failed("登录失败！");
 
     }
-   /* public R login(@ApiParam  @RequestBody AccountInfo requestBody,@ApiParam HttpServletRequest req,@ApiParam HttpServletResponse response){
-        AccountInfo accountInfo = accountInfoService.getAccount(requestBody.getAccount());
-        if (accountInfo != null){
-            try {
-                boolean checkPassword = Md5Util.passwordVerify(requestBody.getPassword(),accountInfo.getPassword());
-                if (checkPassword){
-                    String token = JwtTokenUtil.buildJwt(accountInfo.getAccName(), accountInfo.getAccount());
-//                    // 将token写入响应头中
-//                    response.addHeader("Authorization", "Bearer " + token);
-//                    response.setContentType("application/json;charset=utf-8");
-                    if (token != null) {
-                        Cookie cookie = new Cookie("TOKEN", token);
-                        cookie.setMaxAge(3600);//设置token有效时间
-                        cookie.setPath("/");
-                        response.addCookie(cookie);
-                    }
-                    return R.Success("token值：" + token);
-                }
-                else {
-                    return R.Failed("用户名或者密码错误");
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-        return R.Failed("登录失败！");
-    }*/
 
     @ApiOperation("注册")
     @PostMapping("/register")
