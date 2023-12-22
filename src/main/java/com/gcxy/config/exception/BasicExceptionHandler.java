@@ -28,10 +28,10 @@ public class BasicExceptionHandler {
      * @param exception 异常
      * @return
      */
-
-    @ResponseBody
-    @ExceptionHandler(value = Exception.class)
-    public R errorHandler(Exception exception){
-        return R.Failed(ResultCondeEnum.SYSTEM_EXCEPTION.getCode(),exception.getMessage());
-    }
+//
+//    @ResponseBody
+//    @ExceptionHandler(value = Exception.class)
+//    public R errorHandler(Exception exception){
+//        return R.Failed(ResultCondeEnum.SYSTEM_EXCEPTION.getCode(),exception.getMessage());
+//    }
 }

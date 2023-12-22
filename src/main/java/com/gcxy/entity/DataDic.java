@@ -7,9 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * <p>
@@ -20,6 +18,9 @@ import lombok.Setter;
  * @since 2023-12-21
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @TableName("data_dic")
 @ApiModel(value = "DataDic对象", description = "数据字典")
 public class DataDic implements Serializable {

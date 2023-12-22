@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * <p>
@@ -19,6 +19,10 @@ import lombok.Setter;
  * @since 2023-12-21
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@TableName("pasture LEFT JOIN data_dic_val on pasture.val_id = data_dic_val.id")
 @ApiModel(value = "Pen对象", description = "圈舍管理表")
 public class Pen implements Serializable {
 
@@ -30,6 +34,8 @@ public class Pen implements Serializable {
 
     @ApiModelProperty("牧场编号(关联牧场)")
     private Integer ranchId;
+    @ApiModelProperty("牧场名称（牧场表字段）")
+    private String pastureName;
 
     @ApiModelProperty("圈舍名称(同牧场下唯一)")
     private String penName;

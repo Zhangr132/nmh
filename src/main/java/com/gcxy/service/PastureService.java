@@ -2,6 +2,8 @@ package com.gcxy.service;
 
 import com.gcxy.config.R;
 import com.gcxy.dao.Pasture.AddPastureDao;
+import com.gcxy.dao.Pasture.DeletePastureDao;
+import com.gcxy.dao.Pasture.UpdatePastureDao;
 import com.gcxy.entity.MyPage;
 import com.gcxy.entity.Pasture;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -20,4 +22,8 @@ public interface PastureService extends IService<Pasture> {
 
 
     boolean addPasture(AddPastureDao addPastureDao);
+
+    boolean updatePasture(UpdatePastureDao updatePastureDao);
+
+    boolean deletePasture(DeletePastureDao deletePastureDao);
 }

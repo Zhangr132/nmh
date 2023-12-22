@@ -7,9 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * <p>
@@ -20,7 +18,10 @@ import lombok.Setter;
  * @since 2023-12-21
  */
 @Data
-@TableName("data_dic_val")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@TableName("data_dic_val LEFT JOIN data_dic on data_dic_val.dic_id = data_dic.id")
 @ApiModel(value = "DataDicVal对象", description = "数据字典值表")
 public class DataDicVal implements Serializable {
 
@@ -32,6 +33,8 @@ public class DataDicVal implements Serializable {
 
     @ApiModelProperty("字典编号（关联字典）")
     private Integer dicId;
+    @ApiModelProperty("字典名称（字典字段）")
+    private String dicName;
 
     @ApiModelProperty("字典值取值")
     private String valValue;

@@ -9,7 +9,10 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * <p>
@@ -20,8 +23,10 @@ import lombok.Data;
  * @since 2023-12-21
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @TableName("pasture LEFT JOIN data_dic_val on pasture.val_id = data_dic_val.id")
-
 @ApiModel(value = "Pasture对象", description = "牧场管理表")
 public class Pasture implements Serializable {
 
@@ -35,10 +40,10 @@ public class Pasture implements Serializable {
     private String pastureName;
 
     @ApiModelProperty("场地规模(100-999999)")
-    private String fieldScale;
+    private Integer fieldScale;
 
     @ApiModelProperty("养殖规模(0-999999)")
-    private String feedScale;
+    private Integer feedScale;
 
     @ApiModelProperty("省")
     private String province;
@@ -61,7 +66,7 @@ public class Pasture implements Serializable {
     @ApiModelProperty("字典值编号（关联具体牲畜品种）")
     private Integer valId;  //可有可无
 
-    @ApiModelProperty("字典值取值（牲畜品种）")
+    @ApiModelProperty("牲畜品种（字典值字段）")
     private String valValue;
 
     @ApiModelProperty("存栏量")

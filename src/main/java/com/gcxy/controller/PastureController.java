@@ -2,6 +2,8 @@ package com.gcxy.controller;
 
 import com.gcxy.config.R;
 import com.gcxy.dao.Pasture.AddPastureDao;
+import com.gcxy.dao.Pasture.DeletePastureDao;
+import com.gcxy.dao.Pasture.UpdatePastureDao;
 import com.gcxy.entity.MyPage;
 import com.gcxy.entity.Pasture;
 import com.gcxy.service.PastureService;
@@ -46,12 +48,33 @@ public class PastureController {
     @ApiOperation("新增牧场")
     @PostMapping("/addPasture")
     public R addPasture(@Valid @RequestBody AddPastureDao addPastureDao){
-        logger.info("正在进入牧场添加");
+        logger.info("正在进入新增牧场");
         boolean result=pastureService.addPasture(addPastureDao);
         if(result){
-            return R.Success("注册成功");
+            return R.Success("新增成功");
         }
-        return R.Failed("注册失败");
+        return R.Failed("新增失败");
     }
 
+    @ApiOperation("修改牧场")
+    @PostMapping("/updatePasture")
+    public R updatePasture(@Valid @RequestBody UpdatePastureDao updatePastureDao){
+        logger.info("正在进入修改牧场");
+        boolean row=pastureService.updatePasture(updatePastureDao);
+        if (row){
+            return R.Success("修改成功");
+        }
+        return R.Failed("修改失败，用户不存在");
+    }
+
+    @ApiOperation("停(启)用牧场")
+    @PostMapping("/deletePasture")
+    public R deletePasture(@Valid @RequestBody DeletePastureDao deletePastureDao){
+        logger.info("正在进入停(启)用牧场");
+        boolean row=pastureService.deletePasture(deletePastureDao);
+        if (row){
+            return R.Success("修改牧场状态成功");
+        }
+        return R.Failed("修改牧场状态失败");
+    }
 }

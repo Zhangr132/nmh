@@ -138,6 +138,7 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper, Accou
     @Override
     public R selectAccount(MyPage<AccountInfo> myPage){
         QueryWrapper<AccountInfo> queryWrapper=new QueryWrapper<>();
+        //将pageSize和pageNumber放入Page中
         Page<AccountInfo> page=new Page<>(myPage.getPageNumber(),myPage.getPageSize());
         if(myPage.getData()!=null){
             queryWrapper.like(myPage.getData().getAccName()!=null,"acc_name",myPage.getData().getAccName())
