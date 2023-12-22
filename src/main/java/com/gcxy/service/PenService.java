@@ -1,5 +1,10 @@
 package com.gcxy.service;
 
+import com.gcxy.config.R;
+import com.gcxy.dao.Pen.AddPenDao;
+import com.gcxy.dao.Pen.DeletePenDao;
+import com.gcxy.dao.Pen.UpdatePenDao;
+import com.gcxy.entity.MyPage;
 import com.gcxy.entity.Pen;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +18,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface PenService extends IService<Pen> {
 
+    R selectPagePen(MyPage<Pen> myPage);
+
+    boolean addPen(AddPenDao addPenDao);
+
+    boolean updatePen(UpdatePenDao updatePenDao);
+
+    boolean deletePen(DeletePenDao deletePenDao);
 }

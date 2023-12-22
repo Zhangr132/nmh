@@ -22,7 +22,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("pasture LEFT JOIN data_dic_val on pasture.val_id = data_dic_val.id")
+@TableName("pen LEFT JOIN pasture on  pen.ranch_id=pasture_Id")
 @ApiModel(value = "Pen对象", description = "圈舍管理表")
 public class Pen implements Serializable {
 
