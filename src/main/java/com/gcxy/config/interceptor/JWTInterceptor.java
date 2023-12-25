@@ -19,6 +19,7 @@ public class JWTInterceptor implements HandlerInterceptor {
         String msg = "";
         try{
             JwtTokenUtil.verify(token);
+            return true;
         }catch (SignatureVerificationException e){
             msg="签名无效";
         }catch (TokenExpiredException e){

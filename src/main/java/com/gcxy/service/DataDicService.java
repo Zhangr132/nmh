@@ -1,5 +1,6 @@
 package com.gcxy.service;
 
+import com.gcxy.dao.DataDic.AddDataDicDao;
 import com.gcxy.entity.DataDic;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface DataDicService extends IService<DataDic> {
 
+    boolean addDataDic(AddDataDicDao addDataDicDao);
 }

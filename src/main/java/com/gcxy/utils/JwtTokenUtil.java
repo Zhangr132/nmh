@@ -70,21 +70,33 @@ public class JwtTokenUtil {
 
     /**
      * 校验token是否正确
+     * 如果验证失败，会抛出相应的异常，否则什么也不做
      * @param token
      * @return
      */
-    public static boolean verify(String token) {
-        try {
-            Algorithm algorithm = Algorithm.HMAC256(TOKEN_KEY);
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .build();
-            DecodedJWT jwt = verifier.verify(token);
-            return true;
-        } catch (Exception exception) {
-            return false;
-        }
+    public static void verify(String token) {
+        JWT.require(Algorithm.HMAC256(TOKEN_KEY)).build().verify(token);
     }
+//    public static boolean verify(String token) {
+//        try {
+//            Algorithm algorithm = Algorithm.HMAC256(TOKEN_KEY);
+//            JWTVerifier verifier = JWT.require(algorithm)
+//                    .build();
+//            DecodedJWT jwt = verifier.verify(token);
+//            return true;
+//        } catch (Exception exception) {
+//            return false;
+//        }
+//    }
 
+    /**
+     * 获取token信息
+     * @param token
+     * @return
+     */
+    public static DecodedJWT getTokenInfo(String token) {
+        return JWT.require(Algorithm.HMAC256(TOKEN_KEY)).build().verify(token);
+    }
 
 
     /**
