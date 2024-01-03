@@ -3,6 +3,7 @@ package com.gcxy.controller;
 
 import com.gcxy.config.R;
 import com.gcxy.dao.DataDicVal.AddDataDicValDao;
+import com.gcxy.dao.DataDicVal.DataDicValPageDao;
 import com.gcxy.dao.DataDicVal.DeleteDataDicValDao;
 import com.gcxy.entity.DataDicVal;
 import com.gcxy.entity.MyPage;
@@ -39,8 +40,8 @@ public class DataDicValController {
 
     @ApiOperation("查询畜牧信息")
     @PostMapping("/selectDicVal")
-    public R selectDicVal(@Valid @RequestBody MyPage<DataDicVal> myPage){
-        R result=dataDicValService.selectDicVal(myPage);
+    public R selectDicVal(@Valid @RequestBody DataDicValPageDao dataDicValPageDao){
+        R result=dataDicValService.selectDicVal(dataDicValPageDao);
         return result;
     }
 

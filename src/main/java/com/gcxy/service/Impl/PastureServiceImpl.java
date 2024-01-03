@@ -1,10 +1,12 @@
 package com.gcxy.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gcxy.config.R;
 import com.gcxy.dao.Pasture.AddPastureDao;
 import com.gcxy.dao.Pasture.DeletePastureDao;
+import com.gcxy.dao.Pasture.PasturePageDao;
 import com.gcxy.dao.Pasture.UpdatePastureDao;
 import com.gcxy.entity.AccountInfo;
 import com.gcxy.entity.MyPage;
@@ -38,25 +40,29 @@ public class PastureServiceImpl extends ServiceImpl<PastureMapper, Pasture> impl
     /**
      * 查询牧场信息
      * （牧场名称查询）
-     * @param myPage
+     * @param pasturePageDao
      * @return
      */
     @Override
-    public R selectPasture(MyPage<Pasture> myPage) {
+    public R selectPasture(PasturePageDao pasturePageDao) {
         QueryWrapper<Pasture> queryWrapper=new QueryWrapper<>();
         //将pageSize和pageNumber放入Page中
-        Page<Pasture> page=new Page<>(myPage.getPageNumber(),myPage.getPageSize());
-        if(myPage.getData()!=null){
-            queryWrapper
+        Page<Pasture> page=new Page<>(pasturePageDao.getPageNumber(),pasturePageDao.getPageSize());
+        queryWrapper
                     .select("pasture_Id","pasture_name","field_scale","feed_scale","province","city","district","longitude","latitude","addr_detail","val_id","val_value","amo_livestock","pasture.status","pasture.create_time","pasture.update_time")
-                    .like(myPage.getData().getPastureName()!=null,"pasture_name",myPage.getData().getPastureName())
-                    .eq(myPage.getData().getStatus()!=null,"pasture.status",myPage.getData().getStatus());
-        }
-        pastureMapper.selectPage(page,queryWrapper);
-        List<Pasture> records=page.getRecords();
-        Map data=new HashMap<>();
-        data.put("data",records);
-        return R.Success(data);
+                    .like(pasturePageDao.getPastureName()!=null,"pasture_name",pasturePageDao.getPastureName())
+                    .eq(pasturePageDao.getStatus()!=null,"pasture.status",pasturePageDao.getStatus());
+        IPage<Pasture> pasturePage=pastureMapper.selectPage(page,queryWrapper);
+        List<Pasture> records=pasturePage.getRecords();
+        Map responseData=new HashMap<>();
+        responseData.put("data", records);
+        responseData.put("total", pasturePage.getTotal()); // 总记录数
+        responseData.put("size", pasturePage.getSize()); // 每页显示数量
+        responseData.put("current", pasturePage.getCurrent()); // 当前页码
+        responseData.put("orders", pasturePage.orders()); // 排序信息
+        responseData.put("optimizeCountSql", pasturePage.optimizeCountSql()); // 是否优化count语句
+        responseData.put("pages", pasturePage.getPages()); // 总页数
+        return R.Success(responseData);
     }
 
     /**

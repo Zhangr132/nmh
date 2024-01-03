@@ -1,10 +1,7 @@
 package com.gcxy.service;
 
 import com.gcxy.config.R;
-import com.gcxy.dao.AccountInfo.DeleteDao;
-import com.gcxy.dao.AccountInfo.LoginDao;
-import com.gcxy.dao.AccountInfo.RegisterDao;
-import com.gcxy.dao.AccountInfo.UpdateDao;
+import com.gcxy.dao.AccountInfo.*;
 import com.gcxy.entity.AccountInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.gcxy.entity.MyPage;
@@ -29,7 +26,7 @@ public interface AccountInfoService extends IService<AccountInfo> {
 
     boolean updateAccount(UpdateDao updateDao) throws Exception;
 
-    R selectAccount(MyPage<AccountInfo> myPage);
+    R selectAccount(SelectPageDao selectPageDao);
 
     boolean deleteAccount(DeleteDao deleteDao);
 

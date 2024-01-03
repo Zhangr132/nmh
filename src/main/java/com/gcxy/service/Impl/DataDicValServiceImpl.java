@@ -1,9 +1,11 @@
 package com.gcxy.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gcxy.config.R;
 import com.gcxy.dao.DataDicVal.AddDataDicValDao;
+import com.gcxy.dao.DataDicVal.DataDicValPageDao;
 import com.gcxy.dao.DataDicVal.DeleteDataDicValDao;
 import com.gcxy.entity.DataDicVal;
 import com.gcxy.entity.MyPage;
@@ -36,25 +38,30 @@ public class DataDicValServiceImpl extends ServiceImpl<DataDicValMapper, DataDic
 
     /**
      * 分页查询
-     * @param myPage
+     * @param dataDicValPageDao
      * @return
      */
     @Override
-    public R selectDicVal(MyPage<DataDicVal> myPage) {
+    public R selectDicVal(DataDicValPageDao dataDicValPageDao) {
         QueryWrapper queryWrapper=new QueryWrapper<>();
         //将pageSize和pageNumber放入Page中
-        Page<DataDicVal> page=new Page<>(myPage.getPageNumber(),myPage.getPageSize());
-        if (myPage.getData()!=null){
-            queryWrapper
+        Page<DataDicVal> page=new Page<>(dataDicValPageDao.getPageNumber(),dataDicValPageDao.getPageSize());
+        queryWrapper
                     .select("data_dic_val.Id","dic_id","dic_name","val_value","data_dic_val.status","data_dic_val.create_time","data_dic_val.update_time")
-                    .like(myPage.getData().getValValue()!=null,"val_value",myPage.getData().getValValue())
-                    .eq(myPage.getData().getStatus()!=null,"data_dic_val.status",myPage.getData().getStatus());
-        }
-        dataDicValMapper.selectPage(page,queryWrapper);
-        List<DataDicVal> records=page.getRecords();
-        Map data=new HashMap<>();
-        data.put("data",records);
-        return R.Success(data);
+                    .like(dataDicValPageDao.getValValue()!=null,"val_value",dataDicValPageDao.getValValue())
+                    .eq(dataDicValPageDao.getStatus()!=null,"data_dic_val.status",dataDicValPageDao.getStatus());
+
+        IPage<DataDicVal> dataDicValIPage=dataDicValMapper.selectPage(page,queryWrapper);
+        List<DataDicVal> records=dataDicValIPage.getRecords();
+        Map responseData=new HashMap<>();
+        responseData.put("data", records);
+        responseData.put("total", dataDicValIPage.getTotal()); // 总记录数
+        responseData.put("size", dataDicValIPage.getSize()); // 每页显示数量
+        responseData.put("current", dataDicValIPage.getCurrent()); // 当前页码
+        responseData.put("orders", dataDicValIPage.orders()); // 排序信息
+        responseData.put("optimizeCountSql", dataDicValIPage.optimizeCountSql()); // 是否优化count语句
+        responseData.put("pages", dataDicValIPage.getPages()); // 总页数
+        return R.Success(responseData);
     }
 
     /**

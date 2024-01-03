@@ -32,7 +32,7 @@ public interface AccountInfoMapper extends BaseMapper<AccountInfo> {
     @Insert("insert into account_info values (#{account},#{accName},#{password},#{accPhone},#{status},#{createTime},#{updateTime})")
     int insertAccount(AccountInfo accountInfo);
     //修改
-    @Update("update account_info set account=#{account},acc_name=#{accName},password=#{password},acc_phone=#{accPhone},status=#{status} where account=#{account}")
+    @Update("update account_info set acc_name=#{accName},acc_phone=#{accPhone},status=#{status} where account=#{account}")
     int updateAccount(AccountInfo accountInfo);
     //修改用户状态
     @Update("update account_info set status=#{status} where account=#{account}")

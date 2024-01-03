@@ -2,15 +2,13 @@ package com.gcxy.controller;
 
 
 import com.gcxy.config.R;
+import com.gcxy.dao.Pen.PenPageDao;
 import com.gcxy.dao.Pen.AddPenDao;
 import com.gcxy.dao.Pen.DeletePenDao;
 import com.gcxy.dao.Pen.UpdatePenDao;
-import com.gcxy.entity.MyPage;
-import com.gcxy.entity.Pen;
 import com.gcxy.service.PenService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +39,9 @@ public class PenController {
 
     @ApiOperation("查询圈舍")
     @PostMapping("/selectPagePen")
-    public R selectPagePen(@Valid @RequestBody MyPage<Pen> myPage){
+    public R selectPagePen(@Valid @RequestBody PenPageDao penPageDao){
         logger.info("正在进入圈舍的分页查询");
-        R result=penService.selectPagePen(myPage);
+        R result=penService.selectPagePen(penPageDao);
         return result;
     }
 

@@ -1,10 +1,7 @@
 package com.gcxy.controller;
 
 
-import com.gcxy.dao.AccountInfo.DeleteDao;
-import com.gcxy.dao.AccountInfo.LoginDao;
-import com.gcxy.dao.AccountInfo.RegisterDao;
-import com.gcxy.dao.AccountInfo.UpdateDao;
+import com.gcxy.dao.AccountInfo.*;
 import com.gcxy.entity.AccountInfo;
 import com.gcxy.entity.MyPage;
 import com.gcxy.service.AccountInfoService;
@@ -69,8 +66,8 @@ public class AccountInfoController {
 
     @ApiOperation("分页查询")
     @PostMapping("/selectAccount")
-    public R selectAccount(@Valid @RequestBody MyPage<AccountInfo> myPage){
-        R result =accountInfoService.selectAccount(myPage);
+    public R selectAccount(@Valid @RequestBody SelectPageDao selectPageDao){
+        R result =accountInfoService.selectAccount(selectPageDao);
         return result;
     }
 

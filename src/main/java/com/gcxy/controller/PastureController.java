@@ -3,6 +3,7 @@ package com.gcxy.controller;
 import com.gcxy.config.R;
 import com.gcxy.dao.Pasture.AddPastureDao;
 import com.gcxy.dao.Pasture.DeletePastureDao;
+import com.gcxy.dao.Pasture.PasturePageDao;
 import com.gcxy.dao.Pasture.UpdatePastureDao;
 import com.gcxy.entity.MyPage;
 import com.gcxy.entity.Pasture;
@@ -40,8 +41,8 @@ public class PastureController {
 
     @ApiOperation("查询牧场信息")
     @PostMapping("/selectPasture")
-    public R selectPasture(@Valid @RequestBody MyPage<Pasture> myPage){
-        R result=pastureService.selectPasture(myPage);
+    public R selectPasture(@Valid @RequestBody PasturePageDao pasturePageDao){
+        R result=pastureService.selectPasture(pasturePageDao);
         return result;
     }
 

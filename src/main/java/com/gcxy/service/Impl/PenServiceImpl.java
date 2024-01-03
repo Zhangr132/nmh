@@ -1,10 +1,12 @@
 package com.gcxy.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gcxy.config.R;
 import com.gcxy.dao.Pen.AddPenDao;
 import com.gcxy.dao.Pen.DeletePenDao;
+import com.gcxy.dao.Pen.PenPageDao;
 import com.gcxy.dao.Pen.UpdatePenDao;
 import com.gcxy.entity.MyPage;
 import com.gcxy.entity.Pasture;
@@ -36,21 +38,26 @@ public class PenServiceImpl extends ServiceImpl<PenMapper, Pen> implements PenSe
     private PenMapper penMapper;
 
     @Override
-    public R selectPagePen(MyPage<Pen> myPage) {
+    public R selectPagePen(PenPageDao penPageDao) {
         QueryWrapper<Pen> queryWrapper=new QueryWrapper<>();
-        Page<Pen> page=new Page<>(myPage.getPageNumber(), myPage.getPageSize());
-        if(myPage.getData()!=null){
-            queryWrapper
+        Page<Pen> page=new Page<>(penPageDao.getPageNumber(), penPageDao.getPageSize());
+        queryWrapper
                     .select("pen_Id","ranch_id","pasture_name","pen_name","amount_livestock","pen.status","pen.create_time","pen.update_time")
-                    .like(myPage.getData().getPastureName()!=null,"pasture_name",myPage.getData().getPastureName())
-                    .like(myPage.getData().getPenName()!=null,"pen_name",myPage.getData().getPenName())
-                    .eq(myPage.getData().getStatus()!=null,"pasture.status",myPage.getData().getStatus());
-        }
-        penMapper.selectPage(page,queryWrapper);
-        List<Pen> records=page.getRecords();
-        Map data=new HashMap<>();
-        data.put("data",records);
-        return R.Success(data);
+                    .like(penPageDao.getPastureName()!=null,"pasture_name",penPageDao.getPastureName())
+                    .like(penPageDao.getPenName()!=null,"pen_name",penPageDao.getPenName())
+                    .eq(penPageDao.getStatus()!=null,"pasture.status",penPageDao.getStatus());
+
+        IPage<Pen> pasturePage=penMapper.selectPage(page,queryWrapper);
+        List<Pen> records=pasturePage.getRecords();
+        Map responseData=new HashMap<>();
+        responseData.put("data", records);
+        responseData.put("total", pasturePage.getTotal()); // 总记录数
+        responseData.put("size", pasturePage.getSize()); // 每页显示数量
+        responseData.put("current", pasturePage.getCurrent()); // 当前页码
+        responseData.put("orders", pasturePage.orders()); // 排序信息
+        responseData.put("optimizeCountSql", pasturePage.optimizeCountSql()); // 是否优化count语句
+        responseData.put("pages", pasturePage.getPages()); // 总页数
+        return R.Success(responseData);
     }
 
     /**

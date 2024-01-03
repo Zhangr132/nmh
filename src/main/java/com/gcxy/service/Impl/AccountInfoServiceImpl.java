@@ -1,12 +1,10 @@
 package com.gcxy.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gcxy.config.R;
-import com.gcxy.dao.AccountInfo.DeleteDao;
-import com.gcxy.dao.AccountInfo.LoginDao;
-import com.gcxy.dao.AccountInfo.RegisterDao;
-import com.gcxy.dao.AccountInfo.UpdateDao;
+import com.gcxy.dao.AccountInfo.*;
 import com.gcxy.entity.AccountInfo;
 import com.gcxy.entity.MyPage;
 import com.gcxy.mapper.AccountInfoMapper;
@@ -107,11 +105,9 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper, Accou
     public boolean updateAccount(UpdateDao updateDao) throws Exception {
         AccountInfo accountInfo=accountInfoMapper.getByAccount(updateDao.getAccount());
         if(accountInfo!=null){
-            String ps=Md5Util.md5(updateDao.getPassword());
             AccountInfo accountInfo1=AccountInfo.builder()
                     .account(updateDao.getAccount())
                     .accName(updateDao.getAccName())
-                    .password(ps)
                     .accPhone(updateDao.getAccPhone())
                     .status(updateDao.getStatus())
                     .build();
@@ -141,24 +137,29 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper, Accou
 
     /**
      * 分页查询
-     * @param myPage
+     * @param selectPageDao
      * @return
      */
     @Override
-    public R selectAccount(MyPage<AccountInfo> myPage){
+    public R selectAccount(SelectPageDao selectPageDao){
         QueryWrapper<AccountInfo> queryWrapper=new QueryWrapper<>();
         //将pageSize和pageNumber放入Page中
-        Page<AccountInfo> page=new Page<>(myPage.getPageNumber(),myPage.getPageSize());
-        if(myPage.getData()!=null){
-            queryWrapper.like(myPage.getData().getAccName()!=null,"acc_name",myPage.getData().getAccName())
-                    .like(myPage.getData().getAccPhone()!=null,"acc_phone",myPage.getData().getAccPhone())
-                    .eq(myPage.getData().getStatus()!=null,"status",myPage.getData().getStatus());
-        }
-        accountInfoMapper.selectPage(page,queryWrapper);
-        List<AccountInfo> records=page.getRecords();
-        Map data=new HashMap<>();
-        data.put("data",records);
-        return R.Success(data);
+        Page<AccountInfo> page=new Page<>(selectPageDao.getPageNumber(),selectPageDao.getPageSize());
+        queryWrapper.select("account", "acc_name", "acc_phone", "status", "create_time", "update_time")
+                    .like(selectPageDao.getAccName()!=null,"acc_name",selectPageDao.getAccName())
+                    .like(selectPageDao.getAccPhone()!=null,"acc_phone",selectPageDao.getAccPhone())
+                    .eq(selectPageDao.getStatus()!=null,"status",selectPageDao.getStatus());
+        IPage<AccountInfo> accountInfoPage =accountInfoMapper.selectPage(page,queryWrapper);
+        List<AccountInfo> records=accountInfoPage.getRecords();
+        Map responseData=new HashMap<>();
+        responseData.put("data", records);
+        responseData.put("total", accountInfoPage.getTotal()); // 总记录数
+        responseData.put("size", accountInfoPage.getSize()); // 每页显示数量
+        responseData.put("current", accountInfoPage.getCurrent()); // 当前页码
+        responseData.put("orders", accountInfoPage.orders()); // 排序信息
+        responseData.put("optimizeCountSql", accountInfoPage.optimizeCountSql()); // 是否优化count语句
+        responseData.put("pages", accountInfoPage.getPages()); // 总页数
+        return R.Success(accountInfoMapper.selectPage(page,queryWrapper) );
     }
 
     @Override
