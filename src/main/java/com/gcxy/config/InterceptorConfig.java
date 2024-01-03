@@ -7,6 +7,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * 链接白名单
+ */
 @Configuration
 public class InterceptorConfig implements WebMvcConfigurer {
     @Override

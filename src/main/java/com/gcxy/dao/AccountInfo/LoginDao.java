@@ -1,5 +1,6 @@
 package com.gcxy.dao.AccountInfo;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -17,10 +18,10 @@ import java.io.Serializable;
  */
 @Data
 public class LoginDao implements Serializable {
-    @NotEmpty(message = "登录账号不能为空")
+    @NotEmpty(message = "登录名不能为空")
     @Length(min = 5, max = 11, message = "账号长度为5-11")
     @Pattern(regexp = "^[A-Za-z0-9]+$")
-    private String account;
+    private String accName;
 
     @NotEmpty(message = "登录密码不能为空")
     @Length(min = 6, max = 16, message = "密码长度为6-16")

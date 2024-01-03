@@ -22,8 +22,12 @@ public interface AccountInfoMapper extends BaseMapper<AccountInfo> {
     //获取所有用户数据
     @Select("select * from account_info")
     List<AccountInfo> selectAll();
+    //通过account获取数据
     @Select("select * from account_info where account = #{account}")
     AccountInfo getByAccount(String account);
+    //通过accName获取数据
+    @Select("select * from account_info where acc_name = #{accName}")
+    AccountInfo getByAccName(String accName);
     //新增
     @Insert("insert into account_info values (#{account},#{accName},#{password},#{accPhone},#{status},#{createTime},#{updateTime})")
     int insertAccount(AccountInfo accountInfo);
@@ -33,5 +37,8 @@ public interface AccountInfoMapper extends BaseMapper<AccountInfo> {
     //修改用户状态
     @Update("update account_info set status=#{status} where account=#{account}")
     int updateStatus(AccountInfo accountInfo);
+    //修改用户最后登录的时间
+    @Update("update account_info set update_time=#{updateTime} where account=#{account}")
+    int updateTime(AccountInfo accountInfo);
 
 }

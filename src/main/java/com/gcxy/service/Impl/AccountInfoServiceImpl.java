@@ -18,6 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,11 +47,18 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper, Accou
     @Override
     public String login(LoginDao loginDao) throws Exception {
 //        System.out.println("测试点");
-        boolean result=Md5Util.passwordVerify(loginDao.getPassword(),accountInfoMapper.getByAccount(loginDao.getAccount()).getPassword());
+        boolean result=Md5Util.passwordVerify(loginDao.getPassword(),accountInfoMapper.getByAccName(loginDao.getAccName()).getPassword());
         if(result){
+            //修改用户最后登录时间
+            AccountInfo accountInfo=AccountInfo.builder()
+                    .updateTime(new Date())
+                    .account(accountInfoMapper.getByAccName(loginDao.getAccName()).getAccount())
+                    .build();
+            accountInfoMapper.updateTime(accountInfo);
+            //登录生成token
             Map<String,String> map=new HashMap<>();
-            map.put("accName",accountInfoMapper.getByAccount(loginDao.getAccount()).getAccName());
-            map.put("account",loginDao.getAccount());
+            map.put("accName",loginDao.getAccName());
+            map.put("account",accountInfo.getAccount());
             String token= JwtTokenUtil.createToken(map);
             logger.info("用户登录成功,生成的Token为："+token);
             return token;

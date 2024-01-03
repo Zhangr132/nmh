@@ -43,6 +43,7 @@ public class JwtTokenUtil {
         String token=builder.withExpiresAt(expireTime.getTime())
                 //Signature
                 .sign(Algorithm.HMAC256(TOKEN_KEY));
+        System.out.println("token到期时间：----------------------------------"+expireTime.getTime());
         return token;
     }
 

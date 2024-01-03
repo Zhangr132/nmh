@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 /**
  * @Author zhangr132
  * @Date 2023/12/21 11:34
- * @注释
+ * @注释  牧场保存类    添加
  */
 @Data
 public class AddPastureDao implements Serializable {

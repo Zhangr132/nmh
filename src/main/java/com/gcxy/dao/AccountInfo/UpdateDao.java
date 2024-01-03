@@ -6,7 +6,14 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Pattern;
 
-
+/**
+ * <p>
+ * 用户保存类    修改
+ * </p>
+ *
+ * @author zhangr132
+ * @since 2023-12-25
+ */
 @Data
 public class UpdateDao {
 

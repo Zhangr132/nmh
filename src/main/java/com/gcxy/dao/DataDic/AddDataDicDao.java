@@ -8,7 +8,7 @@ import javax.validation.constraints.NotEmpty;
 /**
  * @Author zhangr132
  * @Date 2023/12/22 16:50
- * @注释
+ * @注释  字典保存类   添加
  */
 @Data
 public class AddDataDicDao {

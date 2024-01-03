@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 /**
  * @Author zhangr132
  * @Date 2023/12/22 9:51
- * @注释
+ * @注释  牧场保存类   修改
  */
 @Data
 public class UpdatePastureDao {

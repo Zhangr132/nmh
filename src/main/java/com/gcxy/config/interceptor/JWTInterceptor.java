@@ -11,6 +11,10 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Token验证
+ */
+
 public class JWTInterceptor implements HandlerInterceptor {
 
     @Override
