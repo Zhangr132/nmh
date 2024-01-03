@@ -19,8 +19,8 @@ public class JWTInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String token=request.getHeader("token");
-        String msg = "";
+        String token=request.getHeader("Authorization");
+        String msg;
         try{
             JwtTokenUtil.verify(token);
             return true;

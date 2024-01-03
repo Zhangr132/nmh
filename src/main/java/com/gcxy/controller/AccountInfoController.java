@@ -45,7 +45,7 @@ public class AccountInfoController {
 
     @ApiOperation("登录")
     @PostMapping(value = "/login")
-    public R login(@Valid @RequestBody LoginDao loginDao, HttpServletResponse response) throws Exception {
+    public R login(@Valid @RequestBody LoginDao loginDao) throws Exception {
         logger.info("正在进行登录");
         String result=accountInfoService.login(loginDao);
         if(result!=null){
