@@ -156,8 +156,8 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper, Accou
         responseData.put("total", accountInfoPage.getTotal()); // 总记录数
         responseData.put("size", accountInfoPage.getSize()); // 每页显示数量
         responseData.put("current", accountInfoPage.getCurrent()); // 当前页码
-        responseData.put("orders", accountInfoPage.orders()); // 排序信息
-        responseData.put("optimizeCountSql", accountInfoPage.optimizeCountSql()); // 是否优化count语句
+//        responseData.put("orders", accountInfoPage.orders()); // 排序信息
+//        responseData.put("optimizeCountSql", accountInfoPage.optimizeCountSql()); // 是否优化count语句
         responseData.put("pages", accountInfoPage.getPages()); // 总页数
         return R.Success(accountInfoMapper.selectPage(page,queryWrapper) );
     }

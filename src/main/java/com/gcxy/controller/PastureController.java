@@ -42,6 +42,7 @@ public class PastureController {
     @ApiOperation("查询牧场信息")
     @PostMapping("/selectPasture")
     public R selectPasture(@Valid @RequestBody PasturePageDao pasturePageDao){
+        logger.info("正在进入查询牧场信息");
         R result=pastureService.selectPasture(pasturePageDao);
         return result;
     }

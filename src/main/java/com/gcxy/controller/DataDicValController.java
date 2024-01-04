@@ -41,6 +41,7 @@ public class DataDicValController {
     @ApiOperation("查询畜牧信息")
     @PostMapping("/selectDicVal")
     public R selectDicVal(@Valid @RequestBody DataDicValPageDao dataDicValPageDao){
+        logger.info("正在查询畜牧信息");
         R result=dataDicValService.selectDicVal(dataDicValPageDao);
         return result;
     }
@@ -48,7 +49,7 @@ public class DataDicValController {
     @ApiOperation("新增畜牧品种")
     @PostMapping("/addDicVal")
     public R addDicVal(@Valid @RequestBody AddDataDicValDao addDataDicValDao){
-        logger.info("正在进入新增");
+        logger.info("正在新增畜牧品种");
         boolean result=dataDicValService.addDicVal(addDataDicValDao);
         if (result){
             return R.Success("新增成功");

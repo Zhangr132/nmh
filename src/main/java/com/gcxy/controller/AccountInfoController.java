@@ -31,6 +31,10 @@ public class AccountInfoController {
     @Autowired
     private AccountInfoService accountInfoService;
 
+    /**
+     * 测试用接口
+     * @return
+     */
     @ApiOperation("获取所有用户数据")
     @GetMapping ("/getAll")
     public R getAll(){
@@ -67,6 +71,7 @@ public class AccountInfoController {
     @ApiOperation("分页查询")
     @PostMapping("/selectAccount")
     public R selectAccount(@Valid @RequestBody SelectPageDao selectPageDao){
+        logger.info("正在进入分页查询");
         R result =accountInfoService.selectAccount(selectPageDao);
         return result;
     }
