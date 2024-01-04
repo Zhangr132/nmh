@@ -59,8 +59,8 @@ public class PastureServiceImpl extends ServiceImpl<PastureMapper, Pasture> impl
         responseData.put("total", pasturePage.getTotal()); // 总记录数
         responseData.put("size", pasturePage.getSize()); // 每页显示数量
         responseData.put("current", pasturePage.getCurrent()); // 当前页码
-        responseData.put("orders", pasturePage.orders()); // 排序信息
-        responseData.put("optimizeCountSql", pasturePage.optimizeCountSql()); // 是否优化count语句
+//        responseData.put("orders", pasturePage.orders()); // 排序信息
+//        responseData.put("optimizeCountSql", pasturePage.optimizeCountSql()); // 是否优化count语句
         responseData.put("pages", pasturePage.getPages()); // 总页数
         return R.Success(responseData);
     }

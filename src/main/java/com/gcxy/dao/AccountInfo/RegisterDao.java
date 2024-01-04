@@ -23,7 +23,7 @@ public class RegisterDao implements Serializable {
     private String account;*/
 
     @NotEmpty(message = "用户名不能为空")
-    @Length(min = 3, max = 11, message = "用户名长度为3-11")
+    @Length(max = 10, message = "登录名最长为10")
     @Pattern(regexp = "^[A-Za-z0-9]+$")
     private String accName;
 

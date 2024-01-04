@@ -47,7 +47,8 @@ public class DataDicValServiceImpl extends ServiceImpl<DataDicValMapper, DataDic
         //将pageSize和pageNumber放入Page中
         Page<DataDicVal> page=new Page<>(dataDicValPageDao.getPageNumber(),dataDicValPageDao.getPageSize());
         queryWrapper
-                    .select("data_dic_val.Id","dic_id","dic_name","val_value","data_dic_val.status","data_dic_val.create_time","data_dic_val.update_time")
+                    .select("data_dic_val.Id","dic_id","dic_name","val_value","data_dic_val.status","data_dic_val.create_time",
+                            "data_dic_val.update_time")
                     .like(dataDicValPageDao.getValValue()!=null,"val_value",dataDicValPageDao.getValValue())
                     .eq(dataDicValPageDao.getStatus()!=null,"data_dic_val.status",dataDicValPageDao.getStatus());
 
@@ -58,8 +59,8 @@ public class DataDicValServiceImpl extends ServiceImpl<DataDicValMapper, DataDic
         responseData.put("total", dataDicValIPage.getTotal()); // 总记录数
         responseData.put("size", dataDicValIPage.getSize()); // 每页显示数量
         responseData.put("current", dataDicValIPage.getCurrent()); // 当前页码
-        responseData.put("orders", dataDicValIPage.orders()); // 排序信息
-        responseData.put("optimizeCountSql", dataDicValIPage.optimizeCountSql()); // 是否优化count语句
+//        responseData.put("orders", dataDicValIPage.orders()); // 排序信息
+//        responseData.put("optimizeCountSql", dataDicValIPage.optimizeCountSql()); // 是否优化count语句
         responseData.put("pages", dataDicValIPage.getPages()); // 总页数
         return R.Success(responseData);
     }

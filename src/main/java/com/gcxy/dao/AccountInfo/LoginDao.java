@@ -19,7 +19,7 @@ import java.io.Serializable;
 @Data
 public class LoginDao implements Serializable {
     @NotEmpty(message = "登录名不能为空")
-    @Length(min = 3, max = 11, message = "账号长度为3-11")
+    @Length(max = 10, message = "登录名最长为10")
     @Pattern(regexp = "^[A-Za-z0-9]+$")
     private String accName;
 
